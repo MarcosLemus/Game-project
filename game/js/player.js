@@ -8,8 +8,6 @@ class Player {
 		this.img = new Image()
 		this.img.src = 'assets/Player/Move.png'
 
-		this.jumpSound = new Audio('./assets/jump.wav')
-
 		this.img.frameIndex = 0
 		this.img.frames = 6
 
@@ -19,6 +17,7 @@ class Player {
 		this.y = this.y0
 
 		this.vy = 0
+		this.vx = 0
 
 		this.w = 58.5
 		this.h = 72
@@ -26,7 +25,11 @@ class Player {
 		this.bullets = []
 
 		this.actions = {
-			jump: false,
+			front: false,
+			back: false,
+			up: false,
+			down: false,
+			shot: false,
 		}
 
 		this.setControls()
@@ -35,25 +38,130 @@ class Player {
 	setControls() {
 		document.addEventListener('keydown', (event) => {
 			switch (event.code) {
-				case this.keys.JUMP:
-					this.jumpSound.volume = 0.2
-					this.jumpSound.play()
-					this.actions.jump = true
+				case this.keys.FRONT:
+					
+					this.actions.front = true
 
-					if (this.y === this.y0) {
-						console.log('SI')
-						this.y = this.y0 - 1
-						this.vy = -10
-					}
+					this.vx = 20
+					this.img.src = 'assets/Player/Boost.png'
+					this.img.frameIndex = 0
+					this.img.frames = 5
+
+					
+
+					break
+
+				case this.keys.BACK:
+		
+					this.actions.back = true
+
+					this.vx = -20
+					this.img.src = 'assets/Player/Boost.png'
+					this.img.frameIndex = 0
+					this.img.frames = 5
+
+
+					break
+
+				case this.keys.UP:
+		
+					this.actions.up = true
+
+					this.vy = -20
+					this.img.src = 'assets/Player/Boost.png'
+					this.img.frameIndex = 0
+					this.img.frames = 5
+
+					break
+
+				case this.keys.DOWN:
+		
+					this.actions.up = true
+
+					this.vy = 20
+					this.img.src = 'assets/Player/Boost.png'
+					this.img.frameIndex = 0
+					this.img.frames = 5
 
 					break
 
 				case this.keys.SHOT:
+
+				this.actions.shot = true
+
+				this.img.src = 'assets/Player/Attack_1.png'
+				this.img.frameIndex = 0
+				this.img.frames = 4
+
 					this.shot()
 
 					break
 			}
 		})
+		document.addEventListener('keyup', (event) => {
+			switch (event.code) {
+				case this.keys.FRONT:
+					
+					this.actions.front = false
+
+					this.vx = 0
+					this.img.src = 'assets/Player/Move.png'
+					this.img.frameIndex = 0
+					this.img.frames = 6
+
+					
+
+					break 
+				
+				
+				case this.keys.BACK:
+		
+					this.actions.back = false
+
+					this.vx = 0
+					this.img.src = 'assets/Player/Move.png'
+					this.img.frameIndex = 0
+					this.img.frames = 6
+
+					break
+
+				case this.keys.UP:
+		
+					this.actions.up = false
+
+					this.vy = 0
+					this.img.src = 'assets/Player/Move.png'
+					this.img.frameIndex = 0
+					this.img.frames = 6
+
+					break
+
+				case this.keys.DOWN:
+		
+					this.actions.up = false
+
+					this.vy = 0
+					this.img.src = 'assets/Player/Move.png'
+					this.img.frameIndex = 0
+					this.img.frames = 6
+
+					break
+
+				case this.keys.SHOT:
+
+					this.actions.shot = false
+	
+					this.img.src = 'assets/Player/Move.png'
+					this.img.frameIndex = 0
+					this.img.frames = 6
+	
+						
+	
+					break
+				}
+
+		})
+		
 	}
 
 	draw(frameCounter) {
@@ -71,9 +179,7 @@ class Player {
 
 		this.animateSprite(frameCounter)
 
-		this.bullets = this.bullets.filter(
-			(bullet) => bullet.x - bullet.radius < this.canvasW
-		)
+	
 
 		this.bullets.forEach((bullet) => {
 			bullet.draw()
@@ -83,12 +189,14 @@ class Player {
 
 	shot() {
 		this.bullets.push(
-			new Bullet(this.ctx, this.x + this.w, this.y0, this.y, this.h)
+			new Bullet(this.ctx, this.x + this.w, this.y, this.h)
 		)
 	}
 
 	animateSprite(frameCounter) {
-		if (frameCounter % 6 === 0) {
+
+
+		if (frameCounter % 2 === 0) {
 			this.img.frameIndex++
 
 			if (this.img.frameIndex >= this.img.frames) {
@@ -98,15 +206,9 @@ class Player {
 	}
 
 	move() {
-		const gravity = 0.45
 
-		if (this.y < this.y0) {
-			this.vy += gravity
-		} else {
-			this.vy = 0
-			this.y = this.y0
-		}
-
-		this.y += this.vy
+	
+		 this.x += this.vx
+		 this.y += this.vy
 	}
 }

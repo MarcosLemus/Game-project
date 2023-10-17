@@ -1,10 +1,10 @@
 class Obstacle2 {
 	constructor(ctx, canvasW, canvasH) {
 		this.ctx = ctx
-		this.canvasW = Math.floor(Math.random() * canvasW / 8) + 200
+		this.canvasW = canvasW
 		this.canvasH = this.canvasW
 
-		this.w = Math.floor(Math.random() * canvasW / 8) + 200
+		this.w = Math.floor(Math.random() * canvasW / 8) + 100
 		this.h = this.w
 
 		this.img = new Image()

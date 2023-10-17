@@ -1,23 +1,30 @@
 class Bullet {
-	constructor(ctx, x, playerY0, playerY, playerH) {
+	constructor(ctx, x, y) {
 		this.ctx = ctx
 
 		this.radius = 5
 		this.x = x
-		this.y = playerY + playerH / 2
+		this.y = y
 
-		this.floor = playerY0 + playerH
 
-		this.vx = 10
-		this.vy = -5
+
+		this.vx = 20
+	
+
+		this.img = new Image()
+		this.img.src = 'assets/shot2_asset.png'
+
+		this.img.frameIndex = 0
+		this.img.frames = 1
 	}
 
 	draw() {
-		this.ctx.beginPath()
-		this.ctx.fillStyle = 'red'
-		this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
-		this.ctx.fill()
-		this.ctx.closePath()
+		this.ctx.drawImage(
+			this.img,
+			this.x,
+			this.y
+		)
+	
 	}
 
 	move() {

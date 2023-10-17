@@ -5,7 +5,7 @@ const Game = {
 	scoreboard: ScoreBoard,
 	fps: 60,
 	keys: {
-		JUMP: 'KeyD',
+		FRONT: 'KeyD',
 		SHOT: 'Space',
 		UP: 'KeyW',
 		DOWN: 'KeyS',
@@ -63,7 +63,7 @@ const Game = {
 			// se pasa el frameCounter al método draw para animar el sprite cada x frames
 
 			if (this.isCollision()) {
-				// this.gameOver()
+				 this.gameOver()
 			}
 
 			this.clearObstacles()
@@ -93,14 +93,14 @@ const Game = {
 		this.player.move()
 	},
 
-	gameOver: function () {
-		// para el intervalo que implementa el loop de animación
-		clearInterval(this.intervalId)
+	// gameOver: function () {
+	// 	// para el intervalo que implementa el loop de animación
+	// 	clearInterval(this.intervalId)
 
-		if (confirm('GAME OVER! ¿Volver a jugar?')) {
-			this.reset()
-		}
-	},
+	// 	if (confirm('GAME OVER! ¿Volver a jugar?')) {
+	// 		this.reset()
+	// 	}
+	// },
 
 	generateObstacle: function () {
 		this.obstacles.push(
