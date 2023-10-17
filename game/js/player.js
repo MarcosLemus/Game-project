@@ -187,6 +187,12 @@ class Player {
 		})
 	}
 
+	destroyed(){
+		this.img.src = 'assets/Player/Destroyed.png'
+		this.img.frames = 21
+		this.frameIndex = 0
+	}
+
 	shot() {
 		this.bullets.push(
 			new Bullet(this.ctx, this.x + this.w, this.y, this.h)

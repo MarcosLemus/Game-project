@@ -4,7 +4,7 @@ class Obstacle2 {
 		this.canvasW = canvasW
 		this.canvasH = this.canvasW
 
-		this.w = Math.floor(Math.random() * canvasW / 8) + 100
+		this.w = Math.floor(Math.random() * canvasW / 10) + 100
 		this.h = this.w
 
 		this.img = new Image()
@@ -17,7 +17,7 @@ class Obstacle2 {
 		
 
 
-		this.dx = 30
+		this.dx = 14
 	}
 
 	draw() {

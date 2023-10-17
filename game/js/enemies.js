@@ -1,53 +1,73 @@
 class Enemy {
-	constructor(x, y, life) {
-		this.x = x
-		this.y = y
+	constructor(ctx, canvasW, canvasH) {
+		this.ctx = ctx
+		this.canvasW = canvasW
+		this.canvasH = canvasH
 
-		this.life = life
+		this.img = new Image()
+		this.img.src = 'assets/enemy/Ship3.png'
+
+		this.img.frameIndex = 0
+		this.img.frames = 1
+
+		this.x = canvasW
+
+		this.y = Math.floor(Math.random() * canvasH)
+
+		this.vx = 13
+
+		this.w = 120
+		this.h = 150
+
+		this.bullets = []
+
+	
+	}
+
+	
+
+	draw(frameCounter) {
+      
+		this.ctx.drawImage(
+			this.img,
+			this.x,
+			this.y,
+			this.w,
+			this.h
+		)
+
+        this.animateSprite(frameCounter)
+
+
+		this.bullets.forEach((bullet) => {
+			bullet.draw()
+			bullet.move()
+		})
+	}
+
+    animateSprite(frameCounter) {
+
+
+		if (frameCounter % 6 === 0) {
+			this.img.frameIndex++
+
+			if (this.img.frameIndex >= this.img.frames) {
+				this.img.frameIndex = 0
+			}
+		}
+	}
+
+	shot() {
+		this.bullets.push(
+			new Bullet(this.ctx, this.x + this.w, this.y, this.h)
+		)
+	}
+
+
+	move() {
+
+	
+		 this.x -= this.vx
 	}
 }
 
-const enemy1 = new Enemy(20, 10)
-const enemy2 = new Enemy(20, 10)
-
-// Creo el array
-let enemies = Array.from({ length: 10 }, () => new Enemy(20, 10, 100))
-
-console.log(enemies)
-
-enemies[0].life = 0
-enemies[9].life = 0
-
-defeatedEnemies = enemies.filter((enemy) => enemy.life <= 0)
-enemies = enemies.filter((enemy) => enemy.life > 0)
-
-console.log(enemies, defeatedEnemies)
-
-// Find es como un filter pero obtiene un item
-
-const matched = enemies.find((enemy) => enemy.x === 20)
-
-matched.name = 'EL ELEGIDO'
-
-enemies = enemies.filter((enemy) => {
-	const isMatched = enemy !== matched
-
-	if (!isMatched) {
-		console.log(enemy, matched)
-	}
-
-	return isMatched
-})
-
-console.log(enemies)
-// console.log(matched)
-
-// enemies[0]
-
-// if (enemies[0] === matched) {
-// 	console.log('SI')
-// } else {
-// 	console.log('NO')
-// }
-
-console.log(filtered)

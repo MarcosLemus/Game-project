@@ -18,7 +18,7 @@ const Game = {
 		this.canvasW = canvas.width = innerWidth
 		this.canvasH = canvas.height = innerHeight
 
-		this.bso = new Audio('./assets/bso.mp3')
+		// this.bso = new Audio('./assets/bso.mp3')
 
 		// this.bso.play()
 
@@ -30,8 +30,11 @@ const Game = {
 
 		this.background = new Background(this.ctx, this.canvasW, this.canvasH)
 		this.player = new Player(this.ctx, this.canvasW, this.canvasH, this.keys)
+		this.enemy = new Enemy(this.ctx, this.canvasW, this.canvasH)
 
 		this.obstacles = []
+
+		this.enemies = []
 
 		this.score = 0
 
@@ -55,6 +58,9 @@ const Game = {
 			// Se genera obstáculo cada x frames
 			if (this.frameCounter % 50 === 0) {
 				this.generateObstacle()
+				
+			} else if (this.frameCounter % 40 === 0){
+				this.generateEnemies()
 			}
 
 			this.drawAll()
@@ -63,22 +69,28 @@ const Game = {
 			// se pasa el frameCounter al método draw para animar el sprite cada x frames
 
 			if (this.isCollision()) {
-				 this.gameOver()
+				this.player.destroyed()
+				this.gameOver()
 			}
 
 			this.clearObstacles()
 
 			console.log(this.obstacles)
+			console.log(this.enemies);
 		}, 1000 / this.fps)
 	},
 
 	drawAll() {
 		this.background.draw()
 
+		this.enemies.forEach((enemy) => {
+			enemy.draw()
+		})
+
 		this.obstacles.forEach((obstacle) => {
 			obstacle.draw()
 		})
-		
+
 
 		this.scoreboard.update(this.score)
 
@@ -87,20 +99,29 @@ const Game = {
 
 	moveAll() {
 		this.background.move()
+
+		this.enemies.forEach((enemy) => {
+			enemy.move()
+		})
+
 		this.obstacles.forEach((obstacle) => {
 			obstacle.move()
 		})
+		
 		this.player.move()
+
 	},
 
-	// gameOver: function () {
-	// 	// para el intervalo que implementa el loop de animación
-	// 	clearInterval(this.intervalId)
+	gameOver: function () {
+		// para el intervalo que implementa el loop de animación
 
-	// 	if (confirm('GAME OVER! ¿Volver a jugar?')) {
-	// 		this.reset()
-	// 	}
-	// },
+		clearInterval(this.intervalId)
+
+		if (confirm('GAME OVER! ¿Volver a jugar?')) {
+			this.reset()
+		}
+		
+	},
 
 	generateObstacle: function () {
 		this.obstacles.push(
@@ -111,7 +132,17 @@ const Game = {
 		)
 	},
 
+	generateEnemies: function () {
+		this.enemies.push(
+			new Enemy(this.ctx, this.canvasW, this.canvasH)
+		)
+
+	},
+
 	isCollision: function () {
+
+		
+
 		return this.obstacles.some(
 			(obstacle) =>
 				obstacle.x + 10 < this.player.x + this.player.w &&
@@ -124,6 +155,9 @@ const Game = {
 	clearObstacles: function () {
 		this.obstacles = this.obstacles.filter(
 			(obstacle) => obstacle.x + obstacle.w > 0
+		)
+		this.enemies = this.enemies.filter(
+			(enemy) => enemy.x + enemy.w > 0
 		)
 	},
 
