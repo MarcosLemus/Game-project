@@ -19,8 +19,18 @@ class Enemy {
 		this.w = 120
 		this.h = 150
 
+		this.fps = 60
+		
+
 		this.bullets = []
 
+		
+		setInterval(() => {
+
+			this.shot()
+
+		  }, Math.floor(Math.random() * 1000) + 100)
+		
 	
 	}
 
@@ -32,8 +42,7 @@ class Enemy {
 			this.img,
 			this.x,
 			this.y,
-			this.w,
-			this.h
+	
 		)
 
         this.animateSprite(frameCounter)
@@ -41,9 +50,15 @@ class Enemy {
 
 		this.bullets.forEach((bullet) => {
 			bullet.draw()
-			bullet.move()
+			bullet.moveEnemy()
+			
+			
 		})
+
+		
 	}
+
+
 
     animateSprite(frameCounter) {
 
@@ -59,14 +74,14 @@ class Enemy {
 
 	shot() {
 		this.bullets.push(
-			new Bullet(this.ctx, this.x + this.w, this.y, this.h)
+			new Bullet(this.ctx, (this.x - this.w - 30) + this.w, (this.y + 38), this.h)
 		)
 	}
 
 
 	move() {
 
-	
+		
 		 this.x -= this.vx
 	}
 }

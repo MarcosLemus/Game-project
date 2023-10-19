@@ -48,6 +48,8 @@ const Game = {
 
 		this.frameCounter = 0
 
+		
+
 		this.intervalId = setInterval(() => {
 			this.clear()
 
@@ -67,11 +69,17 @@ const Game = {
 			this.moveAll()
 
 			// se pasa el frameCounter al método draw para animar el sprite cada x frames
-
+			
 			if (this.isCollision()) {
-				this.player.destroyed()
+  
 				this.gameOver()
-			}
+				
+			} 
+			// else if (this.isCollisionBullets()){
+			// 	this.gameOver()
+			// }
+
+
 
 			this.clearObstacles()
 
@@ -114,13 +122,26 @@ const Game = {
 
 	gameOver: function () {
 		// para el intervalo que implementa el loop de animación
-
+		
 		clearInterval(this.intervalId)
 
-		if (confirm('GAME OVER! ¿Volver a jugar?')) {
-			this.reset()
-		}
 		
+			
+			if (confirm('GAME OVER! ¿Volver a jugar?')) {
+				this.player.destroyed()
+				this.reset()
+			}
+			
+
+		// // Do this instead
+		// setTimeout(() => {
+		// console.log("Hello World!");
+ 		//  }, 500);
+  
+  
+		
+			
+			
 	},
 
 	generateObstacle: function () {
@@ -140,15 +161,21 @@ const Game = {
 	},
 
 	isCollision: function () {
-
 		
-
 		return this.obstacles.some(
 			(obstacle) =>
-				obstacle.x + 10 < this.player.x + this.player.w &&
+				obstacle.x + 20 < this.player.x + this.player.w &&
 				obstacle.x + obstacle.w > this.player.x &&
 				obstacle.y + obstacle.h > this.player.y &&
 				obstacle.y < this.player.y + this.player.h
+		)
+	},
+
+	isCollisionBullets: function () {
+
+		return this.enemies.some(
+			(enemy) =>
+				this.enemy.bullets < this.player.w
 		)
 	},
 

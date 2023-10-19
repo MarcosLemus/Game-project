@@ -2,7 +2,6 @@ class Bullet {
 	constructor(ctx, x, y) {
 		this.ctx = ctx
 
-		this.radius = 5
 		this.x = x
 		this.y = y
 
@@ -15,7 +14,7 @@ class Bullet {
 		this.img.src = 'assets/shot2_asset.png'
 
 		this.img.frameIndex = 0
-		this.img.frames = 1
+		this.img.frames = 20
 	}
 
 	draw() {
@@ -30,7 +29,14 @@ class Bullet {
 	move() {
 	
 
-		this.x += this.vx
+	this.x += this.vx
 		
 	}
+
+	moveEnemy() {
+	
+
+	this.x -= this.vx
+			
+		}
 }

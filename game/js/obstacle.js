@@ -19,6 +19,7 @@ class Obstacle {
 
 
 		this.dx = 12
+		this.dy = 2
 	}
 
 	draw() {
@@ -30,5 +31,6 @@ class Obstacle {
 	move() {
 		
 		this.x -= this.dx
+		this.y += this.dy
 	}
 }
