@@ -25,6 +25,8 @@ const Game = {
 		this.reset()
 	},
 
+	
+
 	reset: function () {
 		console.log('RESET')
 
@@ -83,10 +85,12 @@ const Game = {
 
 			this.clearObstacles()
 
-			console.log(this.obstacles)
-			console.log(this.enemies);
+			// console.log(this.obstacles)
+			// console.log(this.enemies);
 		}, 1000 / this.fps)
 	},
+
+	
 
 	drawAll() {
 		this.background.draw()
@@ -123,24 +127,16 @@ const Game = {
 	gameOver: function () {
 		// para el intervalo que implementa el loop de animación
 		
+		this.player.destroyed()
+
+		
+		
+		
 		clearInterval(this.intervalId)
-
-		
+		if (confirm('GAME OVER! ¿Volver a jugar?')) {
 			
-			if (confirm('GAME OVER! ¿Volver a jugar?')) {
-				this.player.destroyed()
-				this.reset()
-			}
-			
-
-		// // Do this instead
-		// setTimeout(() => {
-		// console.log("Hello World!");
- 		//  }, 500);
-  
-  
-		
-			
+			this.reset()
+		}
 			
 	},
 
@@ -171,11 +167,15 @@ const Game = {
 		)
 	},
 
+
 	isCollisionBullets: function () {
 
 		return this.enemies.some(
 			(enemy) =>
-				this.enemy.bullets < this.player.w
+				enemy.x.bullets < this.player.x + this.player.w &&
+				enemy.x.bullets + enemy.bullets > this.player.x &&
+				obstacle.y + obstacle.h > this.player.y &&
+				obstacle.y < this.player.y + this.player.h
 		)
 	},
 

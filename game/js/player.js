@@ -76,7 +76,7 @@ class Player {
 
 				case this.keys.DOWN:
 		
-					this.actions.up = true
+					this.actions.down = true
 
 					this.vy = 20
 					this.img.src = 'assets/Player/Boost.png'
@@ -138,7 +138,7 @@ class Player {
 
 				case this.keys.DOWN:
 		
-					this.actions.up = false
+					this.actions.down = false
 
 					this.vy = 0
 					this.img.src = 'assets/Player/Move.png'
@@ -213,8 +213,40 @@ class Player {
 
 	move() {
 
+	if(this.actions.up) {
+		this.y += this.vy
+		if(this.y < 0){
+			this.y = 0
+		}
+	}
+
+	if(this.actions.front) {
+		this.x += this.vx
+		if(this.x + this.w >= 1918){
+			this.x = this.canvasW - this.w
+		}
+	}
+
+	if(this.actions.back) {
+		this.x += this.vx
+		if(this.x <= 2){
+			this.x = 2
+		}
+	}
+
 	
-		 this.x += this.vx
-		 this.y += this.vy
+	if(this.actions.down) {
+		this.y += this.vy
+		if(this.y > 857){
+			this.y = 858
+		}
+	}
+		
+		
 	}
 }
+
+
+
+// this.x += this.vx
+// this.y += this.vy
