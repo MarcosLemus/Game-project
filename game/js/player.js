@@ -8,6 +8,8 @@ class Player {
 		this.img = new Image()
 		this.img.src = 'assets/Player/Move.png'
 
+		this.shotSound = new Audio('assets/Shotgun.mp3')
+
 		this.img.frameIndex = 0
 		this.img.frames = 6
 
@@ -92,6 +94,8 @@ class Player {
 				this.img.src = 'assets/Player/Attack_1.png'
 				this.img.frameIndex = 0
 				this.img.frames = 4
+				this.shotSound.volume = 0.2
+				this.shotSound.play()
 
 					this.shot()
 
@@ -247,6 +251,3 @@ class Player {
 }
 
 
-
-// this.x += this.vx
-// this.y += this.vy

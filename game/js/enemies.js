@@ -16,8 +16,8 @@ class Enemy {
 
 		this.vx = 13
 
-		this.w = 120
-		this.h = 150
+		this.w = 128
+		this.h = 128
 
 		this.fps = 60
 		

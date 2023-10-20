@@ -18,9 +18,9 @@ const Game = {
 		this.canvasW = canvas.width = innerWidth
 		this.canvasH = canvas.height = innerHeight
 
-		// this.bso = new Audio('./assets/bso.mp3')
-
-		// this.bso.play()
+		this.bso = new Audio('assets/lady-of-the-80x27s-128379.mp3')
+		this.bso.volume = 0.01
+		this.bso.play()
 
 		this.reset()
 	},
@@ -58,7 +58,7 @@ const Game = {
 			this.frameCounter++
 
 			this.score += 0.03
-			// this.bso.playbackRate += 0.001
+	 		this.bso.playbackRate
 			// Se genera obstáculo cada x frames
 			if (this.frameCounter % 50 === 0) {
 				this.generateObstacle()
@@ -73,14 +73,14 @@ const Game = {
 			// se pasa el frameCounter al método draw para animar el sprite cada x frames
 			
 			if (this.isCollision()) {
-  
-				this.gameOver()
-				
+				this.stopMusic()
+				this.gameOver()	
 			} 
-			// else if (this.isCollisionBullets()){
-			// 	this.gameOver()
-			// }
 
+			if (this.isCollisionEnemy()) {
+				this.stopMusic()
+				this.gameOver()
+			}
 
 
 			this.clearObstacles()
@@ -131,10 +131,8 @@ const Game = {
 
 		
 		
-		
 		clearInterval(this.intervalId)
 		if (confirm('GAME OVER! ¿Volver a jugar?')) {
-			
 			this.reset()
 		}
 			
@@ -156,6 +154,7 @@ const Game = {
 
 	},
 
+
 	isCollision: function () {
 		
 		return this.obstacles.some(
@@ -166,18 +165,29 @@ const Game = {
 				obstacle.y < this.player.y + this.player.h
 		)
 	},
-
-
-	isCollisionBullets: function () {
+	
+	isCollisionEnemy: function () {
 
 		return this.enemies.some(
-			(enemy) =>
-				enemy.x.bullets < this.player.x + this.player.w &&
-				enemy.x.bullets + enemy.bullets > this.player.x &&
-				obstacle.y + obstacle.h > this.player.y &&
-				obstacle.y < this.player.y + this.player.h
+			(enemy) => 
+				enemy.x + 40 < this.player.x + this.player.w &&
+				enemy.x + enemy.w > this.player.x &&
+				enemy.y < this.player.y + this.player.h - 90 &&
+				enemy.y + enemy.h - 90 > this.player.y
+
+				
+			
 		)
+		
 	},
+
+	stopMusic: function () {
+		
+			this.bso.pause()
+
+	},
+	
+
 
 	clearObstacles: function () {
 		this.obstacles = this.obstacles.filter(
